@@ -6,6 +6,7 @@ import Table from './Table';
 class App extends React.Component {
     state = { 
         airportCode: [],
+        selectedCode: ''
     }
 
     async componentDidMount() {
@@ -16,11 +17,16 @@ class App extends React.Component {
         });
     }
 
+    onCodeSelect = c => {
+        console.log(c);
+        this.setState({ selectedCode: c });
+    };
+
     render() {
         return (
             <div>
-                <Droplist airportCode={this.state.airportCode} />
-                <Table />
+                <Droplist airportCode={this.state.airportCode} onCodeSelect={this.onCodeSelect} />
+                <Table selectedCode={this.state.selectedCode} />
             </div>
         );
     }
