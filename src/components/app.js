@@ -5,28 +5,41 @@ import Table from './Table';
 
 class App extends React.Component {
     state = { 
-        airportCode: [],
-        selectedCode: ''
+        allAirlineInfo: [],
+        selectedCode1: "ATL",
+        selectedYear: 2003,
     }
 
     async componentDidMount() {
         const response = await axios.get('https://flare-code-exercise-data.s3.amazonaws.com/airlines.json');
 
         this.setState({ 
-            airportCode: response.data.map( c => c.Airport.Code),
+            allAirlineInfo: response.data
         });
+
+        
     }
 
-    onCodeSelect = c => {
-        console.log(c);
-        this.setState({ selectedCode: c });
+    onCodeClick = (c) => {
+        this.setState({ selectedCode1: c });
+    };
+
+    onYearClick = y => {
+        this.setState({ selectedYear: y });
     };
 
     render() {
         return (
             <div>
-                <Droplist airportCode={this.state.airportCode} onCodeSelect={this.onCodeSelect} />
-                <Table selectedCode={this.state.selectedCode} />
+                <Droplist 
+                    onCodeClick={this.onCodeClick} 
+                    onYearClick={this.onYearClick} 
+                />
+                <Table 
+                    selectedCode1={this.state.selectedCode1} 
+                    allAirlineInfo={this.state.allAirlineInfo}
+                    selectedYear={this.state.selectedYear}
+                />
             </div>
         );
     }
